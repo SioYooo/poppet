@@ -202,18 +202,27 @@ test('package evidence re-verifies every packaged binary against the run manifes
 });
 
 test('findAppBundles collects every .app below dist, recursing and ignoring plain files', () => {
-  const tree = { dist: { mac: { 'Poppet.app': {} }, 'Poppet.app': {}, 'notes.txt': null } };
+  // Directory membership is an explicit path table (normalized to forward
+  // slashes) so the fixture walks identically under POSIX and win32 joins.
+  const dirs = new Map([
+    ['/repo/dist', ['mac', 'Poppet.app', 'notes.txt']],
+    ['/repo/dist/mac', ['Poppet.app']],
+    ['/repo/dist/Poppet.app', []],
+    ['/repo/dist/mac/Poppet.app', []],
+  ]);
   const readdirSync = (dir) => {
-    const segments = String(dir).split(path.sep).filter(Boolean);
-    let node = tree;
-    for (const segment of segments.slice(1)) node = node[segment];
-    return Object.entries(node).map(([name, child]) => ({
+    const key = String(dir).split(path.sep).join('/');
+    assert.ok(dirs.has(key), `unexpected walk path: ${key}`);
+    return dirs.get(key).map((name) => ({
       name,
-      isDirectory: () => child !== null,
+      isDirectory: () => dirs.has(`${key}/${name}`),
     }));
   };
   const apps = findAppBundles('/repo/dist', () => true, readdirSync);
-  assert.deepEqual(apps.sort(), ['/repo/dist/Poppet.app', '/repo/dist/mac/Poppet.app']);
+  assert.deepEqual(
+    apps.map((app) => app.split(path.sep).join('/')).sort(),
+    ['/repo/dist/Poppet.app', '/repo/dist/mac/Poppet.app'],
+  );
 });
 
 test('a clean darwin run passes and writes a schemaVersion 1 report with honest boundaries', () => {
