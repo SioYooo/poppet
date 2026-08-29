@@ -58,7 +58,7 @@
   "license": "MIT AND LicenseRef-Poppet-Scoped-Artwork",
   "devDependencies": {
     "@electron/asar": "4.2.1",
-    "electron": "43.4.1",
+    "electron": "44.0.0",
     "electron-builder": "26.15.7",
     "plist": "5.0.0"
   },
