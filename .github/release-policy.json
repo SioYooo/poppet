@@ -1,10 +1,10 @@
 {
   "schemaVersion": 2,
   "publicRepositoryApproval": {
-    "status": "OWNER_APPROVAL_REQUIRED",
-    "approvedBy": null,
-    "approvedAt": null,
-    "evidence": null
+    "status": "VERIFIED",
+    "approvedBy": "Sioyoo",
+    "approvedAt": "2026-08-29",
+    "evidence": "Owner-approved clean-history publication: repository made public 2026-08-29 as a single squashed initial commit containing no private history; hosted CI green on public main (2026-08-29)."
   },
   "bundledArtwork": {
     "status": "VERIFIED",

@@ -7,12 +7,13 @@
 Poppet 是面向 macOS 与 Windows 的本地优先 Electron 应用：无需账号，当前源码没有遥测、
 云端图片处理或自动更新客户端。
 
-> **当前状态：Public Alpha 准备中。** 目前没有经批准的公开二进制 Release。
-> 默认金发角色由作者 Sioyoo 使用 OpenAI 图像生成（gpt-image）创建并按 Poppet
-> 专用许可授权，其来源与 C2PA 披露见
-> [docs/default-character-provenance.md](docs/default-character-provenance.md)；仓库公开、
-> 未打包的黑发参考图和实际 Release 仍需单独所有者审批，自动 Release 继续 fail-closed。
-> 请勿把本仓库当前产物宣传为已发布或稳定版。
+> **当前状态：Public Alpha。** 本仓库通过 clean-history 路线公开（单一初始提交，
+> 不含私有开发历史）。默认金发角色由作者 Sioyoo 使用 OpenAI 图像生成（gpt-image）
+> 创建并按 Poppet 专用许可授权，其来源与 C2PA 披露见
+> [docs/default-character-provenance.md](docs/default-character-provenance.md)；
+> 未打包的黑发参考图按同一范围授权随仓库发布。二进制 Release 由 fail-closed 门禁
+> 与受保护的发布环境逐次把关，首个 alpha 为 unsigned controlled alpha。
+> 请勿把本仓库产物宣传为已发布的稳定版。
 
 ![角色管理器：默认角色像素化前后对比预览](docs/media/manager-pixelize-original.png)
 
@@ -137,9 +138,10 @@ macOS 测试与原生 macOS/Windows 的 unsigned 打包（含包纯度校验）�
 prerelease tag、版本、法律/权属 policy、测试、依赖审计、包纯度、产物集合和哈希全部通过，
 才允许创建 GitHub prerelease。
 
-当前 `.github/release-policy.json` 只剩**一条**仓库公开阻断记录：
-
-1. 仓库所有者完成历史/隐私/法律复核，并明确授权何时将仓库设为 public。
+`.github/release-policy.json` 的两条门禁记录（仓库公开审批、仓库内素材权属）已于
+2026-08-29 置为 `VERIFIED`：仓库以 clean-history 路线公开（单一初始提交，不含私有
+历史），公开仓库的 hosted CI 已在 main 上跑绿。任何字节或许可变化都会重新关闭
+对应门禁。
 
 黑发根目录参考图已于 2026-08-24 补齐授权记录（所有者自生成的 AI 图，同一份 Poppet 范围
 授权）；`docs/default-character-provenance.md` 同时记录了它与金发源图的证据强度差别。
