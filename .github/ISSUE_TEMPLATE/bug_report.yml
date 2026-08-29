@@ -1,0 +1,57 @@
+name: Bug report
+description: Report a reproducible Poppet defect; do not attach private images by default.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Security reports must follow SECURITY.md and must not be filed publicly.
+  - type: input
+    id: version
+    attributes:
+      label: Poppet version or commit
+      placeholder: v0.1.0-alpha.1 or abc1234
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - macOS Apple silicon
+        - macOS Intel
+        - Windows x64
+        - Source checkout on another platform
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating-system version
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: I removed credentials, unintended personal paths, and private images.
+          required: true

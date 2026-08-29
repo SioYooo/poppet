@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a vulnerability privately
+    url: https://github.com/SioYooo/poppet/security/advisories/new
+    about: Use GitHub Private Vulnerability Reporting, not a public issue.
+  - name: Support guidance
+    url: https://github.com/SioYooo/poppet/blob/main/SUPPORT.md
+    about: Read support boundaries before filing a bug.

@@ -1,0 +1,147 @@
+{
+  "name": "poppet",
+  "version": "0.1.0-alpha.1",
+  "private": true,
+  "description": "把一张像素立绘变成会呼吸、会眨眼、会在桌面上溜达的桌宠（macOS / Windows）",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SioYooo/poppet.git"
+  },
+  "main": "src/main/index.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=22.12.0 <23"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "test": "node tools/check.mjs && node tools/test-parts.mjs && node tools/test-skeleton.mjs && node tools/test-motion.mjs && node tools/test-pipeline.mjs && npm run test:extraction && npm run test:pixelize && npm run test:face && npm run test:runtime && npm run test:packaging && npm run test:security && npm run test:studio && npm run test:core-loop && npm run test:tooling && npm run test:release",
+    "test:extraction": "node tools/run-node-tests.mjs test/extraction",
+    "test:pixelize": "node tools/run-node-tests.mjs test/pixelize",
+    "test:face": "node tools/run-node-tests.mjs test/face-detection",
+    "test:runtime": "node tools/run-node-tests.mjs test/runtime",
+    "test:packaging": "node tools/run-node-tests.mjs test/packaging",
+    "test:security": "node tools/run-node-tests.mjs test/security",
+    "test:persistence": "node --test test/security/storage.test.cjs test/security/library-persistence.test.cjs",
+    "test:studio": "node tools/run-node-tests.mjs test/studio",
+    "test:core-loop": "node tools/run-node-tests.mjs test/core-loop",
+    "test:release": "node tools/run-node-tests.mjs .github/scripts",
+    "test:click": "node tools/run-electron-smoke.mjs --test-click",
+    "test:manager": "node tools/run-electron-smoke.mjs --test-manager",
+    "survey": "node tools/survey.mjs",
+    "measure:core-loop": "node tools/core-loop-corpus.mjs",
+    "measure:performance": "node tools/core-loop-performance.mjs",
+    "compare:performance": "node tools/core-loop-performance-compare.mjs",
+    "finalize:core-loop": "node tools/core-loop-acceptance-finalize.mjs",
+    "assets": "node tools/build-default-character.mjs",
+    "icons": "node tools/make-icons.mjs",
+    "verify": "node tools/verify-face.mjs",
+    "demo": "electron . --dev --demo --capture .demo-shots",
+    "pack:mac": "electron-builder --mac --publish never",
+    "pack:win": "electron-builder --win --publish never",
+    "pack:all": "electron-builder --mac --win --publish never",
+    "verify:package": "node tools/verify-package.mjs",
+    "gate": "node tools/gate-protrusion.mjs 'assets/corpus/raw/dcss/crawl-tiles Oct-5-2010/dc-mon' --upscale 4",
+    "test:multi": "node tools/run-electron-smoke.mjs --test-multi",
+    "test:tooling": "node tools/run-node-tests.mjs test/tooling",
+    "test:file": "node tools/run-node-tests.mjs",
+    "dev:isolated": "node tools/run-dev-isolated.mjs",
+    "preflight:release": "node tools/release-preflight.mjs",
+    "qualify:native": "node tools/qualify-native.mjs",
+    "precheck": "node tools/precheck.mjs",
+    "precheck:smokes": "node tools/precheck.mjs --smokes",
+    "clean": "node tools/clean-build.mjs",
+    "clean:all": "node tools/clean-build.mjs --yes --caches",
+    "inspect:pack": "node tools/inspect-pack.mjs"
+  },
+  "author": "",
+  "license": "MIT AND LicenseRef-Poppet-Scoped-Artwork",
+  "devDependencies": {
+    "@electron/asar": "4.2.1",
+    "electron": "43.4.1",
+    "electron-builder": "26.15.7",
+    "plist": "5.0.0"
+  },
+  "build": {
+    "appId": "com.sioyoo.poppet",
+    "productName": "Poppet",
+    "publish": null,
+    "afterExtract": "build/after-extract.cjs",
+    "afterPack": "build/after-pack.cjs",
+    "afterSign": "build/after-sign.cjs",
+    "files": [
+      "src/**/*",
+      "!src/main/dev-capture.js",
+      "!src/renderer/dev/**/*",
+      "assets/characters/default/**/*",
+      "assets/tray-fallback.png",
+      "package.json",
+      "!*.{png,PNG}",
+      "!test/**/*",
+      "!tools/**/*",
+      "!assets/source/**/*",
+      "!**/.env*",
+      "!**/*.{key,pem,p12,pfx}"
+    ],
+    "extraResources": [
+      {
+        "from": "LICENSE",
+        "to": "LICENSE.POPPET.txt"
+      },
+      {
+        "from": "THIRD_PARTY_NOTICES.md",
+        "to": "THIRD_PARTY_NOTICES.md"
+      },
+      {
+        "from": "ASSETS_LICENSE.md",
+        "to": "ASSETS_LICENSE.md"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.entertainment",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.icns"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "guid": "aff6dd02-d42c-52f2-a0d0-8591b48e503f",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    }
+  }
+}

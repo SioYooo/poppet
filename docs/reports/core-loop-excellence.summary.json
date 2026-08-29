@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": null,
+  "gitSha": null,
+  "branch": "main",
+  "pr": null,
+  "ciRun": null,
+  "engineeringVerdict": "PARTIAL_VERIFIED",
+  "productVerdict": "HUMAN_REQUIRED",
+  "evidenceBoundaries": [
+    "DRAFT_NOT_FINAL_SHA",
+    "PRE_CHANGE_LOCAL_MANAGER_SMOKE_ONLY",
+    "NO_QUALIFYING_CORPUS",
+    "NO_HUMAN_TRIALS"
+  ],
+  "testCommands": [
+    "npm run test:manager"
+  ],
+  "testResults": [
+    {
+      "command": "npm run test:manager",
+      "status": "PASS",
+      "firstProcess": {
+        "passed": 4,
+        "total": 4
+      },
+      "restartProcess": {
+        "passed": 3,
+        "total": 3
+      },
+      "boundary": "Windows source Electron smoke; first execution included the Electron download"
+    }
+  ],
+  "packageResults": [],
+  "managerScenarios": [
+    {
+      "name": "pre-change-manager-smoke",
+      "status": "PASS",
+      "boundary": "No T0-T6 or first-ready-frame acknowledgement"
+    }
+  ],
+  "corpusCounts": {
+    "supported": 0,
+    "recovery": 0,
+    "unsupported": 0,
+    "rightsClearedSupported": 0,
+    "syntheticAuxiliary": 0
+  },
+  "humanTrialCounts": {
+    "participants": 0,
+    "completed": 0,
+    "within60Seconds": 0
+  },
+  "timingSummary": null,
+  "performanceSummary": null,
+  "failureCounts": {
+    "CI_SOURCE_CONTRACT": 0,
+    "CI_HOST_LAYOUT_ASSUMPTION": 0,
+    "PACKAGED_NOTICE_MISSING": 0,
+    "PACKAGED_NOTICE_STALE": 0,
+    "ASAR_MANIFEST_DRIFT": 0,
+    "INPUT_BUDGET_REJECTED": 0,
+    "UNSUPPORTED_COMPLEX_BACKGROUND": 0,
+    "SUBJECT_EXTRACTION_FAILURE": 0,
+    "SUBJECT_EXTRACTION_UNCERTAIN": 0,
+    "FACE_OR_PARTS_DETECTION_FAILURE": 0,
+    "MANUAL_FIX_REQUIRED": 0,
+    "PIXELIZE_FAILURE": 0,
+    "PREVIEW_FAILURE": 0,
+    "PERSISTENCE_FAILURE": 0,
+    "SPAWN_FAILURE": 0,
+    "RESTART_RECOVERY_FAILURE": 0,
+    "RUNTIME_COMPOSITION_FAILURE": 0,
+    "PERFORMANCE_REGRESSION": 0,
+    "TEST_FIXTURE_ERROR": 0,
+    "ENVIRONMENT_FAILURE": 0,
+    "HUMAN_EVIDENCE_UNAVAILABLE": 1,
+    "RIGHTS_OR_PROVENANCE_BLOCKED": 1
+  },
+  "rightsStatus": "RIGHTS_OR_PROVENANCE_BLOCKED",
+  "nativePlatformStatus": {
+    "windows": "SOURCE_ELECTRON_SMOKE_ONLY",
+    "macos": "UNVERIFIED_FOR_THIS_MILESTONE",
+    "signingNotarization": "UNVERIFIED"
+  },
+  "remainingGates": [
+    "Final same-SHA hosted CI and package jobs",
+    "T0-T6 and exact first-ready-frame acknowledgement",
+    "1/3/6 performance baseline and one-hour soak",
+    "At least 50 rights-cleared supported-scope corpus cases",
+    "At least five qualifying novice participants"
+  ],
+  "commits": [],
+  "nextAction": "Commit a final candidate, then run the locked clean-source automated and same-machine performance oracles."
+}

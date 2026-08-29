@@ -1,0 +1,190 @@
+name: Prerelease
+
+on:
+  push:
+    tags: ["v*.*.*-*"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: prerelease-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: "22"
+  CSC_IDENTITY_AUTO_DISCOVERY: "false"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out the event commit with complete refs
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          # This job has contents:read only. Credentials are removed immediately
+          # after the explicit main/tag fetch and remote tag verification.
+          persist-credentials: true
+      - name: Fetch trusted main and event tag, then verify ancestry
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "+refs/heads/main:refs/remotes/origin/main"
+          git fetch --force --no-tags origin "+refs/tags/${GITHUB_REF_NAME}:refs/tags/${GITHUB_REF_NAME}"
+          event_commit="$(git rev-parse --verify "${GITHUB_SHA}^{commit}")"
+          main_commit="$(git rev-parse --verify "refs/remotes/origin/main^{commit}")"
+          tag_commit="$(git rev-parse --verify "refs/tags/${GITHUB_REF_NAME}^{commit}")"
+          test "$event_commit" = "$GITHUB_SHA"
+          test "$tag_commit" = "$GITHUB_SHA"
+          git merge-base --is-ancestor "$GITHUB_SHA" "$main_commit"
+      - name: Verify fetched lineage and current remote tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          cleanup_credentials() {
+            git config --local --unset-all http.https://github.com/.extraheader >/dev/null 2>&1 || true
+          }
+          trap cleanup_credentials EXIT
+          node .github/scripts/check-release-lineage.mjs \
+            --event-sha "$GITHUB_SHA" \
+            --tag "$GITHUB_REF_NAME" \
+            --main-ref refs/remotes/origin/main \
+            --remote origin
+      - name: Use Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - name: Test release gate scripts
+        run: node tools/run-node-tests.mjs .github/scripts
+      - name: Enforce legal, provenance, approval, tag, and version gates
+        run: node .github/scripts/check-release-readiness.mjs
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm test
+      - name: Audit locked dependencies
+        run: npm audit --audit-level=high
+
+  build:
+    needs: validate
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: macos
+            os: macos-latest
+            command: npm run pack:mac
+          - platform: windows
+            os: windows-latest
+            command: npm run pack:win
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: ${{ matrix.command }}
+      - run: npm run verify:package
+      - run: node .github/scripts/collect-release-assets.mjs ${{ matrix.platform }}
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: poppet-${{ matrix.platform }}-unsigned-${{ github.sha }}
+          path: release-assets/*
+          if-no-files-found: error
+          retention-days: 7
+
+  # Runs before the protected environment so the human approver can inspect a
+  # completed cross-platform manifest/SHA-256 verification instead of approving
+  # ahead of it. The publish job repeats the same verification on its own
+  # download; that repetition is deliberate, not redundant.
+  verify:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out the immutable event commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Use Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Download native release artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: poppet-*-unsigned-${{ github.sha }}
+          path: release-assets
+          merge-multiple: true
+      - name: Verify cross-platform manifests and checksums
+        run: node .github/scripts/verify-release-assets.mjs release-assets
+
+  publish:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: public-release
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the immutable event commit with complete refs
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Recheck fetched ancestry before handling artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          event_commit="$(git rev-parse --verify "${GITHUB_SHA}^{commit}")"
+          main_commit="$(git rev-parse --verify "refs/remotes/origin/main^{commit}")"
+          tag_commit="$(git rev-parse --verify "refs/tags/${GITHUB_REF_NAME}^{commit}")"
+          test "$event_commit" = "$GITHUB_SHA"
+          test "$tag_commit" = "$GITHUB_SHA"
+          git merge-base --is-ancestor "$GITHUB_SHA" "$main_commit"
+      - name: Use Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Download native release artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: poppet-*-unsigned-${{ github.sha }}
+          path: release-assets
+          merge-multiple: true
+      - name: Verify cross-platform manifests and checksums
+        run: node .github/scripts/verify-release-assets.mjs release-assets
+      - name: Recheck remote tag and publish controlled prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # This read-only ls-remote check peels annotated tags and must still
+          # resolve exactly to the event SHA immediately before publication.
+          node .github/scripts/check-release-lineage.mjs \
+            --event-sha "$GITHUB_SHA" \
+            --tag "$GITHUB_REF_NAME" \
+            --main-ref refs/remotes/origin/main \
+            --remote origin \
+            --token-env GH_TOKEN
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "Release already exists; refusing to overwrite it."
+            exit 1
+          fi
+          gh release create "$GITHUB_REF_NAME" release-assets/* \
+            --verify-tag \
+            --prerelease \
+            --title "Poppet $GITHUB_REF_NAME (controlled alpha)" \
+            --notes-file .github/ALPHA_RELEASE_NOTES.md

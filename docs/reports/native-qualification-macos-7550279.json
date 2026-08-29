@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "tools/qualify-native.mjs",
+  "automatedOnly": true,
+  "commit": "75502790882085df1c666fe94ad5146c60c3b6b3",
+  "workingTree": "clean",
+  "version": "0.1.0-alpha.1",
+  "platform": "macos",
+  "osVersion": "Darwin 27.0.0",
+  "arch": "arm64",
+  "node": "v22.23.1",
+  "electron": "43.4.1",
+  "electronBuilder": "26.15.7",
+  "appId": "com.sioyoo.poppet",
+  "timestamp": "2026-08-28T12:54:49.638Z",
+  "commands": [
+    {
+      "name": "npm-test",
+      "command": "npm test",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "smoke-manager",
+      "command": "npm run test:manager",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "smoke-click",
+      "command": "npm run test:click",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "smoke-multi",
+      "command": "npm run test:multi",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "pack",
+      "command": "npm run pack:mac",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "verify-package",
+      "command": "npm run verify:package",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
+      "name": "collect-release-assets",
+      "command": "node .github/scripts/collect-release-assets.mjs macos",
+      "status": "PASS",
+      "exitCode": 0
+    }
+  ],
+  "packageArtifacts": [
+    {
+      "name": "Poppet-macOS-arm64.dmg",
+      "bytes": 121111380,
+      "sha256": "8c740ceabe7755f889b1d978262b01305ca618d19ab52b7d058e1132cb5afd0e",
+      "status": "PASS"
+    },
+    {
+      "name": "Poppet-macOS-arm64.zip",
+      "bytes": 116962268,
+      "sha256": "e91c4c142b93eea0535a5f5a21f0c41bf86edf2ebab7ca14b0b7e363d9570a68",
+      "status": "PASS"
+    },
+    {
+      "name": "Poppet-macOS-x64.dmg",
+      "bytes": 125863771,
+      "sha256": "65fffd0e76f98433d7974f30170a2af0d7536d3b8d7ddcac4fe49ae216a6625f",
+      "status": "PASS"
+    },
+    {
+      "name": "Poppet-macOS-x64.zip",
+      "bytes": 121720749,
+      "sha256": "8bbe1513dfe4c6d2a51b8564474f468ccb531e85f89a0a0c1bf7918537f2770d",
+      "status": "PASS"
+    }
+  ],
+  "packagePurity": {
+    "verifyPackage": "PASS",
+    "note": "tools/verify-package.mjs inspected every built app.asar against current production source"
+  },
+  "signature": [
+    {
+      "app": "dist/mac-arm64/Poppet.app",
+      "verifyDeepStrict": "PASS",
+      "verifyDetail": null,
+      "identifier": "com.sioyoo.poppet",
+      "identifierMatchesAppId": true,
+      "teamIdentifier": null,
+      "adhoc": true,
+      "spctlVerdict": "rejected",
+      "spctlDetail": "dist/mac-arm64/Poppet.app: rejected"
+    },
+    {
+      "app": "dist/mac/Poppet.app",
+      "verifyDeepStrict": "PASS",
+      "verifyDetail": null,
+      "identifier": "com.sioyoo.poppet",
+      "identifierMatchesAppId": true,
+      "teamIdentifier": null,
+      "adhoc": true,
+      "spctlVerdict": "rejected",
+      "spctlDetail": "dist/mac/Poppet.app: rejected"
+    }
+  ],
+  "smokes": {
+    "status": "PASS",
+    "note": "Electron smokes ran in this session"
+  },
+  "manualChecks": {
+    "manager-opens-from-tray": "MANUAL_REQUIRED",
+    "bundled-pet-appears": "MANUAL_REQUIRED",
+    "png-import-and-pixelization": "MANUAL_REQUIRED",
+    "create-succeeds-first-non-empty-frame": "MANUAL_REQUIRED",
+    "click-reaction": "MANUAL_REQUIRED",
+    "drag-and-landing": "MANUAL_REQUIRED",
+    "click-through-behavior": "MANUAL_REQUIRED",
+    "multiple-pets": "MANUAL_REQUIRED",
+    "positions-persist-across-restart": "MANUAL_REQUIRED",
+    "remove-and-re-add-pet": "MANUAL_REQUIRED",
+    "poppetpack-import": "MANUAL_REQUIRED",
+    "poppetpack-export-user-created": "MANUAL_REQUIRED",
+    "builtin-brand-character-export-refused": "MANUAL_REQUIRED",
+    "quit-and-relaunch": "MANUAL_REQUIRED",
+    "tray-menu-bar-icon": "MANUAL_REQUIRED",
+    "multi-display-rescue": "MANUAL_REQUIRED"
+  },
+  "blockedChecks": [
+    "quarantined first launch (a local build never passes through browser download; Gatekeeper dialog behavior is NOT verified here)",
+    "the other operating system: a cross-build is not native evidence; run this tool on real hardware",
+    "hosted-CI confirmation for this exact commit",
+    "signing identity or notarization: local artifacts stay unsigned/ad-hoc and must not be described as trusted",
+    "the manual GUI checklist in docs/native-release-qualification.md"
+  ],
+  "result": "PASS"
+}

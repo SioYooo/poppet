@@ -1,0 +1,4 @@
+{
+  "//": "shared/ 下是纯算法模块，被 renderer 的 <script type=module> 和 tools/*.mjs 共用，一律按 ESM 解析。主进程与 preload 走 CommonJS，两边互不干扰。",
+  "type": "module"
+}

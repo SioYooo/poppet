@@ -1,0 +1,4 @@
+{
+  "//": "renderer 下的脚本都以 <script type=module> 加载，标成 ESM 让 node --check 之类的工具也按同一套语义解析。",
+  "type": "module"
+}

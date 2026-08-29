@@ -1,0 +1,40 @@
+name: Request a private security contact channel
+description: Use only if private vulnerability reporting is unavailable. Never put vulnerability details here.
+title: "[Security contact]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This issue is public.** It exists only because blank issues are
+        disabled, so that someone who cannot reach the private reporting form
+        still has a way to ask for a private channel.
+
+        Do not describe the vulnerability, the affected code path, the trigger
+        input, or the impact here, and do not attach a reproducer. Post nothing
+        you would not post on a public forum. The maintainer will reply with a
+        private channel, and the report itself belongs in that channel.
+
+        If **Report a vulnerability privately** appears on the new-issue
+        chooser, use that instead and do not file this form.
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform you were using
+      description: Coarse context only, so the maintainer can prioritize. Choose "Prefer not to say" if it would narrow the issue.
+      options:
+        - Prefer not to say
+        - macOS Apple silicon
+        - macOS Intel
+        - Windows x64
+        - Source checkout on another platform
+    validations:
+      required: true
+  - type: checkboxes
+    id: disclosure
+    attributes:
+      label: Disclosure check
+      options:
+        - label: This issue contains no vulnerability details, no reproduction, and no attachment.
+          required: true
+        - label: I could not reach GitHub Private Vulnerability Reporting for this repository.
+          required: true

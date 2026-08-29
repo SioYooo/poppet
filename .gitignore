@@ -1,0 +1,84 @@
+# Dependencies
+node_modules/
+
+# Packaged applications and release staging
+dist/
+dist-*/
+/release-assets/
+steam/content/
+steam/output/
+
+# Local test, demo, coverage, and diagnostic output
+.artifacts/
+.demo-shots/
+coverage/
+*.log
+npm-debug.log*
+
+# Hosted-CI electron-builder toolset cache (ELECTRON_BUILDER_CACHE in .github/workflows/ci.yml)
+.electron-builder-cache/
+
+# Internal source and regression assets (kept only in the local checkout)
+/assets/source/
+/assets/characters/anim/
+/assets/characters/cyclops/
+/assets/characters/floater/
+/assets/characters/legacy/
+/assets/characters/nomouth/
+
+# Internal strategy, process, and dated evidence notes (kept only in the local
+# checkout). The public clean-history export is exactly the tracked file set,
+# so anything untracked here never ships. Machine-readable evidence under
+# docs/reports/ stays published; prose strategy and process records do not.
+/AGENTS.md
+/CLAUDE.md
+/memories/
+/docs/archive/
+/docs/poppet-studio.md
+/docs/advanced-subject-extraction.md
+/docs/github-public-release.md
+/docs/reports/*
+!/docs/reports/core-loop-excellence.summary.json
+!/docs/reports/core-loop-excellence.acceptance.json
+!/docs/reports/native-qualification-*.json
+
+# Regenerated platform icon intermediates; keep final .icns/.ico files
+/build/icon.iconset/
+
+# Machine-local code indexes and editor state
+.codegraph/
+.claude/
+.DS_Store
+.idea/
+.vscode/
+
+# Downloaded/reconstructed research corpus. Keep only its manifest in Git.
+assets/corpus/images/
+assets/corpus/raw/
+
+# Regenerated legacy pipeline outputs that are not packaged by electron-builder
+/character.json
+/assets/features.json
+/assets/icon.png
+/assets/parts.png
+/assets/pet.png
+
+# Untracked root images stay excluded by default.
+# The two owner-requested character references are tracked in Git/GitHub history.
+# This rule keeps root PNGs out of npm tarballs; package.json keeps them out of
+# production app bundles.
+/*.PNG
+
+# Credentials and local environment
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Temporary files
+*.tmp
+*.swp
+*~

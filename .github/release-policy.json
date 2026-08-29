@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 2,
+  "publicRepositoryApproval": {
+    "status": "OWNER_APPROVAL_REQUIRED",
+    "approvedBy": null,
+    "approvedAt": null,
+    "evidence": null
+  },
+  "bundledArtwork": {
+    "status": "VERIFIED",
+    "assets": [
+      {
+        "path": "assets/characters/default/character.json",
+        "sha256": "b0561da90d1565861470bf7cff9835017c077837084f47473ac69b82c0576ed8",
+        "role": "Built-in character metadata that identifies and positions the default artwork",
+        "provenance": "PROJECT_AUTHORED_METADATA",
+        "copyrightOwner": "Sioyoo",
+        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "redistribution": "VERIFIED",
+        "evidence": "docs/default-character-provenance.md"
+      },
+      {
+        "path": "assets/characters/default/icon.png",
+        "sha256": "2ec9c812b3c61a43be3cd8d2b8626a41731ffaa6d96dcb3c2b67db1711a0d54a",
+        "role": "Built-in character selection icon",
+        "provenance": "DERIVED_FROM_OWNER_AI_GENERATED",
+        "copyrightOwner": "Sioyoo",
+        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "redistribution": "VERIFIED",
+        "evidence": "docs/default-character-provenance.md"
+      },
+      {
+        "path": "assets/characters/default/parts.png",
+        "sha256": "a825303b72eaf7659df2ff023cd67b7c53c41b07a5ab1986e3a71e63e1883b72",
+        "role": "Built-in character sprite parts used by the renderer",
+        "provenance": "DERIVED_FROM_OWNER_AI_GENERATED",
+        "copyrightOwner": "Sioyoo",
+        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "redistribution": "VERIFIED",
+        "evidence": "docs/default-character-provenance.md"
+      },
+      {
+        "path": "assets/characters/default/pet.png",
+        "sha256": "b7819006582aba8e68b343441c0cad3eddbf4f22d21d0a4984c2d707ad3b4b7f",
+        "role": "Built-in character preview artwork",
+        "provenance": "DERIVED_FROM_OWNER_AI_GENERATED",
+        "copyrightOwner": "Sioyoo",
+        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "redistribution": "VERIFIED",
+        "evidence": "docs/default-character-provenance.md"
+      },
+      {
+        "path": "assets/tray-fallback.png",
+        "sha256": "3f808914d0da904b1779f9adc255f0c0f0118b5d70e704a04049b500d8f5daa4",
+        "role": "Canonical macOS menu-bar and Windows notification-area icon",
+        "provenance": "GENERATED_FROM_OWNER_AI_GENERATED_ARTWORK",
+        "copyrightOwner": "Sioyoo",
+        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "redistribution": "VERIFIED",
+        "evidence": "docs/default-character-provenance.md"
+      },
+      {
+        "path": "build/icon.icns",
+        "sha256": "114097aad51e5f6e1e6cc2d3d6cb013757da784af195306acf1a878f152a2288",
+        "role": "macOS application icon bundle",
+        "provenance": "GENERATED_FROM_OWNER_AI_GENERATED_ARTWORK",
+        "copyrightOwner": "Sioyoo",
+        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "redistribution": "VERIFIED",
+        "evidence": "docs/default-character-provenance.md"
+      },
+      {
+        "path": "build/icon.ico",
+        "sha256": "6e632fe6a325f4fd88012fe4a32c88289664995608d93f4212bb6d7a5e7ce481",
+        "role": "Windows application icon bundle",
+        "provenance": "GENERATED_FROM_OWNER_AI_GENERATED_ARTWORK",
+        "copyrightOwner": "Sioyoo",
+        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "redistribution": "VERIFIED",
+        "evidence": "docs/default-character-provenance.md"
+      }
+    ]
+  },
+  "repositoryArtwork": {
+    "status": "VERIFIED",
+    "assets": [
+      {
+        "path": "5E700BDF-E583-4DFB-9B63-E03CC10F02FD.PNG",
+        "sha256": "89ff707049ff0edbe48387f7c6f6b336a3f4e2c4274ea5415c87e9ee387a5548",
+        "role": "Owner-generated (OpenAI gpt-image) blonde source reference included in the source repository",
+        "provenance": "OWNER_AI_GENERATED",
+        "copyrightOwner": "Sioyoo",
+        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "redistribution": "VERIFIED",
+        "evidence": "docs/default-character-provenance.md"
+      },
+      {
+        "path": "F8B5D4B4-324B-487B-BFAC-E4A3A151D7E7.PNG",
+        "sha256": "cadc21e244e7681c6c664cec9ad4abd5fabd4018731d66b144845601aede31b4",
+        "role": "Unbundled black-haired character reference included in the source repository",
+        "provenance": "OWNER_AI_GENERATED",
+        "copyrightOwner": "Sioyoo",
+        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "redistribution": "VERIFIED",
+        "evidence": "docs/default-character-provenance.md"
+      }
+    ]
+  }
+}

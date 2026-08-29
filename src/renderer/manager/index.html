@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:;">
+  <title>Poppet 角色管理</title>
+  <link rel="stylesheet" href="manager.css">
+</head>
+<body>
+  <div class="titlebar"></div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <h1>角色</h1>
+        <button id="btn-add" class="btn btn-primary">＋ 导入图片</button>
+        <button id="btn-import-pack" class="btn" title="导入 .poppetpack 角色包">📦 导入角色包</button>
+      </div>
+      <ul id="character-list" class="char-list"></ul>
+
+      <div class="settings">
+        <h2>桌宠设置</h2>
+        <label class="row">
+          <span>大小</span>
+          <select id="set-scale">
+            <option value="0.35">小</option>
+            <option value="0.5">中</option>
+            <option value="0.7">大</option>
+            <option value="1">特大</option>
+          </select>
+        </label>
+        <label class="row check">
+          <input type="checkbox" id="set-wander"><span>自己在桌面上溜达</span>
+        </label>
+        <label class="row check">
+          <input type="checkbox" id="set-clickthrough"><span>空白处点击穿透</span>
+        </label>
+        <label class="row">
+          <span>帧率</span>
+          <select id="set-fps" title="降低帧率可以省电；快速动作会略显不连贯">
+            <option value="30">省电（30 fps）</option>
+            <option value="45">平衡（45 fps）</option>
+            <option value="60">流畅（60 fps）</option>
+          </select>
+        </label>
+        <label class="row check" id="login-item-row" hidden>
+          <input type="checkbox" id="set-login-item"><span>开机自动启动</span>
+        </label>
+      </div>
+    </aside>
+
+    <main class="main">
+      <!-- 空态 / 拖放区 -->
+      <section id="dropzone" class="dropzone">
+        <div class="dropzone-inner">
+          <div class="dz-icon">🖼️</div>
+          <h2>把一张角色立绘拖进来</h2>
+          <p>PNG / GIF / WebP / JPG 都行。像素风的全身或半身立绘效果最好。<br>
+             带透明背景最理想；纯色背景会自动抠掉。</p>
+          <button id="btn-pick" class="btn btn-primary">选择图片…</button>
+          <p>已有 .poppetpack 角色包？用左上「导入角色包」按钮导入。</p>
+          <p id="dz-feedback" class="dz-feedback" hidden></p>
+        </div>
+      </section>
+
+      <!-- 处理结果 -->
+      <section id="editor" class="editor hidden">
+        <header class="editor-head">
+          <input id="char-name" class="name-input" type="text" aria-label="角色名称"
+                 placeholder="给它起个名字" maxlength="24">
+          <div class="editor-actions">
+            <button id="btn-cancel" class="btn">取消</button>
+            <button id="btn-save" class="btn btn-primary" aria-describedby="readiness-detail" disabled>创建桌宠</button>
+          </div>
+        </header>
+
+        <div class="editor-body">
+          <div class="preview-wrap">
+            <div class="preview-compare">
+              <div class="compare-card compare-source" id="source-compare">
+                <div class="compare-label">处理前 · 原始输入</div>
+                <canvas id="source-preview" aria-label="处理前原始输入"></canvas>
+              </div>
+              <div class="compare-card compare-result">
+                <div class="compare-label" id="result-preview-label">处理后 · Original 默认管线</div>
+                <canvas id="preview" aria-label="处理后可编辑预览"></canvas>
+              </div>
+            </div>
+            <div id="preview-hint" class="preview-hint"></div>
+          </div>
+
+          <div class="panel">
+            <section id="readiness-card" class="readiness" data-state="processing"
+                     role="status" aria-live="polite" aria-atomic="true">
+              <div id="readiness-title" class="readiness-title">处理中</div>
+              <p id="readiness-detail" class="readiness-detail">正在准备预览…</p>
+              <button id="readiness-action" class="btn hidden" type="button"></button>
+            </section>
+
+            <section class="panel-block style-block" aria-labelledby="style-title">
+              <h3 id="style-title">选择样式</h3>
+              <div id="style-choices" class="style-choices" role="group" aria-label="桌宠图像样式">
+                <button class="style-choice" type="button" data-preset="original" aria-pressed="true">
+                  <span>Original</span><small>保留当前经典处理</small>
+                </button>
+                <button class="style-choice" type="button" data-preset="classic" aria-pressed="false">
+                  <span>Classic</span><small>清晰像素感</small>
+                </button>
+                <button class="style-choice" type="button" data-preset="chunky" aria-pressed="false">
+                  <span>Chunky</span><small>更粗颗粒</small>
+                </button>
+              </div>
+              <p class="hint">Original 是安全默认；三种选择都只在本地处理。</p>
+            </section>
+
+            <details id="advanced-controls" class="advanced-controls">
+              <summary id="advanced-summary">Advanced · 高级修正</summary>
+              <div id="targeted-recovery-tools" class="targeted-recovery-tools" role="note">
+                <span>当前只显示需要处理的表情区域。</span>
+                <button id="btn-show-all-advanced" class="btn" type="button"
+                        aria-controls="advanced-body">显示全部高级选项</button>
+              </div>
+              <div id="advanced-body" class="advanced-body">
+                <div class="panel-block" id="pixelize-block">
+                  <h3>完整像素化设置</h3>
+                  <p class="hint">这是完全本地、可重现的低分辨率转换，不是 AI 重绘。
+                     切换选项会立即重做左侧预览，创建时只使用当前选择。</p>
+                  <label class="row"><span>样式</span>
+                    <select id="pixelize-preset">
+                      <option value="original">Original · 当前经典处理</option>
+                      <option value="tiny">Tiny · 48px</option>
+                      <option value="chunky">Chunky · 80px</option>
+                      <option value="classic">Classic · 128px</option>
+                      <option value="soft">Detailed · 192px</option>
+                    </select>
+                  </label>
+                  <label class="row"><span>调色板</span>
+                    <select id="pixelize-palette">
+                      <option value="auto">跟随样式</option>
+                      <option value="8">8 色</option>
+                      <option value="16">16 色</option>
+                      <option value="24">24 色</option>
+                      <option value="32">32 色</option>
+                      <option value="48">48 色</option>
+                    </select>
+                  </label>
+                  <p id="pixelize-hint" class="hint pixelize-status"></p>
+                </div>
+
+                <div class="panel-block hidden" id="suggest-block">
+                  <h3>可动部件候选</h3>
+                  <p class="hint">自动找出来的「突出末端」——尾巴、耳朵、呆毛、翅膀这类。
+                     它只保证「这里有个突出的东西」，<b>叫什么名字经常是错的</b>，框得也不一定准。
+                     所以要你过一眼：不对的直接「不是」。</p>
+                  <ul id="suggest-list" class="suggest"></ul>
+                </div>
+
+                <div class="panel-block" id="expression-block">
+                  <h3>表情区域</h3>
+                  <p class="hint">框错了或者没框到，可以自己重画：先点下面的按钮，再在左边预览图上拖出矩形。
+                     独眼或侧脸角色只框「眼睛①」就行。<br>
+                     认错了（例如把耳朵、镜片、高光或纽扣当成眼睛）就重框真实眼睛，
+                     或点中错误部件再「删掉选中的部件」。删光了也没关系，桌宠照样呼吸、走动、被拖拽，只是不眨眼。</p>
+                  <p class="hint caution">戴眼镜的角色请尽量把眼框画在镜框内侧，不要包含镜框；框里的所有像素都会参与眨眼。
+                     如果墨镜完全遮住眼睛，建议删除眼部框。创建前请用下方「眨眼检查」确认。</p>
+                  <div class="calib" id="calib-parts">
+                    <button class="btn btn-chip" data-part="eye0">重框眼睛①</button>
+                    <button class="btn btn-chip" data-part="eye1">重框眼睛②</button>
+                    <button class="btn btn-chip" data-part="mouth">重框嘴</button>
+                  </div>
+                  <div class="calib" id="calib-parts2">
+                    <button id="btn-del-part" class="btn">删掉选中的部件</button>
+                    <button id="btn-reprocess" class="btn">按新框重新处理</button>
+                    <button id="btn-redetect" class="btn">恢复自动检测</button>
+                  </div>
+                  <fieldset class="rect-editor" aria-describedby="rect-editor-hint">
+                    <legend>键盘坐标框选</legend>
+                    <p id="rect-editor-hint" class="hint">不方便拖拽时可输入像素坐标；在数字框中按方向键可每次微调 1 像素。</p>
+                    <div class="rect-grid">
+                      <label for="rect-part"><span>部件</span>
+                        <select id="rect-part">
+                          <option value="eye0">眼睛①</option>
+                          <option value="eye1">眼睛②</option>
+                          <option value="mouth">嘴</option>
+                        </select>
+                      </label>
+                      <label for="rect-x"><span>X</span><input id="rect-x" type="number" min="0" step="1" inputmode="numeric"></label>
+                      <label for="rect-y"><span>Y</span><input id="rect-y" type="number" min="0" step="1" inputmode="numeric"></label>
+                      <label for="rect-w"><span>宽</span><input id="rect-w" type="number" min="3" step="1" inputmode="numeric"></label>
+                      <label for="rect-h"><span>高</span><input id="rect-h" type="number" min="3" step="1" inputmode="numeric"></label>
+                    </div>
+                    <div class="calib rect-actions">
+                      <button id="btn-load-rect" class="btn" type="button">载入当前框</button>
+                      <button id="btn-apply-rect" class="btn" type="button">应用坐标并重新处理</button>
+                    </div>
+                    <p id="rect-status" class="hint rect-status" role="status" aria-live="polite"></p>
+                  </fieldset>
+                  <button id="btn-accept-review" class="btn">确认当前表情结果可用</button>
+                </div>
+
+                <div class="panel-block" id="frames-block">
+                  <h3>多帧素材</h3>
+                  <p class="hint" id="frames-hint"></p>
+                  <div class="calib" id="grid-row">
+                    <label class="row grid-in"><span>列</span><input type="number" id="grid-cols" min="1" max="32" value="1"></label>
+                    <label class="row grid-in"><span>行</span><input type="number" id="grid-rows" min="1" max="32" value="1"></label>
+                    <button id="btn-slice" class="btn">按网格切分</button>
+                    <button id="btn-unslice" class="btn">当作单帧</button>
+                  </div>
+                  <div id="clips-row" hidden>
+                    <p class="hint" id="clips-hint"></p>
+                    <label class="row grid-in"><span>待机</span><input type="text" id="clip-idle" placeholder="0-3"></label>
+                    <label class="row grid-in"><span>走路</span><input type="text" id="clip-walk" placeholder="4-11"></label>
+                    <label class="row grid-in"><span>拖拽</span><input type="text" id="clip-drag" placeholder="留空则用待机"></label>
+                    <label class="row grid-in"><span>招手</span><input type="text" id="clip-greet" placeholder="12-19"></label>
+                    <button id="btn-clips" class="btn">应用分段</button>
+                  </div>
+                </div>
+
+                <div class="panel-block" id="rig-block">
+                  <h3>动作方式</h3>
+                  <p class="hint">这几项决定动画怎么对待这张图。默认按"站着的人形"处理，
+                     飘着的、侧面的、非人形的角色需要在这里改。</p>
+                  <label class="row"><span>移动</span>
+                    <select id="rig-motion">
+                      <option value="walk">在地面走动</option>
+                      <option value="float">悬浮飘动</option>
+                      <option value="idle">待在原地</option>
+                    </select>
+                  </label>
+                  <label class="row"><span>身体基准</span>
+                    <select id="rig-anchor">
+                      <option value="feet">脚踩地面</option>
+                      <option value="center">悬空</option>
+                    </select>
+                  </label>
+                  <label class="row check"><input type="checkbox" id="rig-flip"><span>走动时翻转朝向</span></label>
+                  <label class="row check"><input type="checkbox" id="rig-sway"><span>下摆随步伐甩动</span></label>
+                </div>
+
+                <div class="panel-block" id="skeleton-block" hidden>
+                  <h3>关节骨架</h3>
+                  <p class="hint" id="skeleton-hint"></p>
+                  <canvas id="skel-canvas" width="220" height="220"></canvas>
+                  <div class="calib">
+                    <label class="row grid-in"><span>试姿势</span>
+                      <select id="skel-pose">
+                        <option value="idle">静止</option>
+                        <option value="walkSwing">走路</option>
+                        <option value="dangle">拖拽悬空</option>
+                        <option value="impact">落地屈膝</option>
+                        <option value="wave">招手</option>
+                        <option value="breathe">呼吸</option>
+                      </select>
+                    </label>
+                    <label class="row grid-in"><span>幅度</span>
+                      <input type="range" id="skel-phase" min="-100" max="100" value="100"></label>
+                  </div>
+                  <label class="row"><span>骨骼</span><select id="skel-bone"></select></label>
+                  <label class="row check"><input type="checkbox" id="skel-pick-pivot">
+                    <span>点画面设置枢轴（部件不会移动，只改旋转中心）</span></label>
+                  <div class="calib">
+                    <label class="row grid-in"><span>父骨骼</span><select id="skel-parent"></select></label>
+                    <label class="row grid-in"><span>层序 z</span>
+                      <input type="number" id="skel-z" min="-1024" max="1024" step="1"></label>
+                    <label class="row grid-in"><span>枢轴 X</span>
+                      <input type="number" id="skel-pivot-x" step="1"></label>
+                    <label class="row grid-in"><span>枢轴 Y</span>
+                      <input type="number" id="skel-pivot-y" step="1"></label>
+                    <label class="row grid-in"><span>接点 X</span>
+                      <input type="number" id="skel-anchor-x" step="1"></label>
+                    <label class="row grid-in"><span>接点 Y</span>
+                      <input type="number" id="skel-anchor-y" step="1"></label>
+                    <label class="row grid-in"><span>限位下</span>
+                      <input type="number" id="skel-limit-lo" step="5" placeholder="不限"></label>
+                    <label class="row grid-in"><span>限位上</span>
+                      <input type="number" id="skel-limit-hi" step="5" placeholder="不限"></label>
+                  </div>
+                  <p class="hint">驱动器增益：这根骨头跟着哪种运动转，转多少。
+                     负号是反相——左右腿差一个负号就自然错开。留空或 0 表示不跟。</p>
+                  <div class="calib" id="skel-drivers"></div>
+                  <div class="calib">
+                    <button id="btn-skeleton-save" class="btn">保存骨架</button>
+                    <button id="btn-skeleton-revert" class="btn">放弃改动</button>
+                  </div>
+                </div>
+
+                <div class="panel-block" id="preview-controls-block">
+                  <h3>预览</h3>
+                  <div class="calib">
+                    <button id="btn-play-blink" class="btn">眨眼检查</button>
+                    <button id="btn-play-talk" class="btn">说句话</button>
+                    <button id="btn-toggle-boxes" class="btn">显示/隐藏框</button>
+                  </div>
+                </div>
+
+                <div class="panel-block" id="diagnostics-block">
+                  <h3>处理诊断</h3>
+                  <ul id="report" class="report"></ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <div id="busy" class="busy hidden"><div class="spinner"></div><span id="busy-text">处理中…</span></div>
+    </main>
+  </div>
+
+  <script type="module" src="manager.js"></script>
+</body>
+</html>
