@@ -89,6 +89,24 @@ Poppet 专用素材许可，不随代码一起采用 MIT；详见
 没有迁移标记，`npm start` 会按设计拒绝启动；此时可用 `npm run dev:isolated` 在一个用后即删的
 临时 profile 里交互式运行，不会读写真实资料目录。
 
+## 下载
+
+当前唯一的发布渠道是 GitHub Releases 上的 **unsigned controlled alpha**（prerelease，
+不参与 `/releases/latest` 解析，请使用固定 tag 链接）：
+
+```text
+https://github.com/SioYooo/poppet/releases/download/v0.1.0-alpha.1/Poppet-macOS-arm64.dmg
+https://github.com/SioYooo/poppet/releases/download/v0.1.0-alpha.1/Poppet-macOS-arm64.zip
+https://github.com/SioYooo/poppet/releases/download/v0.1.0-alpha.1/Poppet-macOS-x64.dmg
+https://github.com/SioYooo/poppet/releases/download/v0.1.0-alpha.1/Poppet-macOS-x64.zip
+https://github.com/SioYooo/poppet/releases/download/v0.1.0-alpha.1/Poppet-Windows-x64-installer.exe
+https://github.com/SioYooo/poppet/releases/download/v0.1.0-alpha.1/Poppet-Windows-x64-portable.exe
+```
+
+下载前请用 Release 页的 `SHA256SUMS` 核对哈希；macOS 首启可能触发 Gatekeeper
+（系统设置 → 隐私与安全性 → 仍要打开），Windows 可能触发 SmartScreen。不要关闭系统级
+安全保护；不愿走这些步骤请等未来的 signed build。
+
 ## 使用
 
 从托盘菜单打开“角色管理”，拖入图片或选择图片文件。处理后可以比较/选择本地像素化
