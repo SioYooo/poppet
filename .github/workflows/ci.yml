@@ -1,18 +1,10 @@
 name: CI
 
-# 私有仓库的 Actions 额度按平台折算，而且**每个 job 先各自向上取整到整分钟**再折算。
-# 核实于 2026-08-25：GitHub 已不再发布"倍率表"，改为按分钟单价
-# （Linux 2-core $0.006 / Windows 2-core $0.010 / macOS $0.062），换算成
-# Linux 当量约 1x / 1.67x / 10.33x。Free 个人账号每月 2,000 分钟。
-#
-# 取整是这里最反直觉的部分：实测一次全量运行真实耗时 8.7 分钟，各 job 取整后是
-# 13 个 runner 分钟，折算成额度是 ~55 分钟——每月只够约 36 次。macOS 占其中 75%。
-# 最极端的一条：macOS 上那个 0.47 分钟的测试 job 要计 10.33 分钟额度，
-# 28 秒的活按 10 分钟 Linux 收费。所以它被折进下面的 macOS 打包 job 里
-# （2.25 + 0.47 仍然进位到 3 分钟），整条省掉。
-#
-# 其余按"每次提交"和"发布证据"分开：每次推送跑 Linux/Windows 的全部测试与冒烟
-# （约 10 分钟额度），打包纯净度改为每周定时 + 手动触发。
+# 本仓库公开（2026-08-29）后 Actions 不计量：分钟与 artifact 存储对公开仓库
+# 免费，所以私有仓库时期的额度优化（macOS 折算约 10 倍、每 job 取整进位、
+# 打包纯净度只留每周定时）全部随公开化移除——每次 push/PR 都跑完整矩阵：
+# Linux/Windows/macOS 测试、三平台冒烟、双平台原生打包与 app.asar 纯净度。
+# 公开前的历史取整/折算记录保留在 poppet-dev 开发仓库的文档里。
 #
 # 注意不能改用 paths-ignore 按路径跳过：test/packaging/public-surface.test.mjs
 # 断言 README/SECURITY/docs 的内容，test/core-loop/ 会读 docs/reports/ 下的
@@ -22,7 +14,7 @@ on:
   push:
     branches: [main]
   schedule:
-    # 每周一 04:00 UTC 跑一次全量，包含 macOS 与打包纯净度
+    # 每周一 04:00 UTC 的全量兜底（捕捉 runner 镜像漂移；push 已覆盖功能场景）
     - cron: "0 4 * * 1"
   workflow_dispatch:
 
@@ -44,8 +36,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # macOS 不在这里：一个不到半分钟的 job 要计 10.33 分钟额度，
-        # 折进 macOS 打包 job 是净省。跨平台测试证据因此随打包同一条节奏产生。
         os: [ubuntu-latest, windows-latest]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -85,9 +75,10 @@ jobs:
 
   package:
     needs: [test, audit]
-    # 打包纯净度是**发布闸门**，不是每次提交的信号：release.yml 在打 tag 时本来
-    # 就会完整跑一遍，那才是发布证据真正需要的时刻。这里保留每周与手动两条路。
-    if: github.event_name != 'push'
+    # 打包纯净度对每次提交都验证：公开仓库 Actions 不计量，没有理由让
+    # 双平台原生打包与 app.asar 纯度只留在每周定时上。成功时不保存任何
+    # installer（collect-release-assets 只在 runner 临时磁盘上核对期望的
+    # 发布文件集 + SHA-256 并 PASS/FAIL）。
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     env:
@@ -151,15 +142,14 @@ jobs:
       - run: node .github/scripts/collect-release-assets.mjs ${{ matrix.platform }}
 
   # 这里是**唯一**在托管环境里真正启动 Electron 进程的地方——其余 job 都是 Node 级。
-  # 三个冒烟合并在一个 job 里跑，因为计费按 job 向上取整：分成三个 job 要付三次进位，
-  # 合在一起只把这一个 job 从 2 分钟推到 3 分钟。
-  # macOS 只在非 push 事件上跑（10.33 倍计费），Windows 每次推送都跑。
+  # 三个冒烟合并在一个 job 里跑（渲染节拍/点击拖拽、导入保存恢复、多窗口 IPC 各自
+  # 覆盖一半），Windows 与 macOS 每次提交都跑。
   smoke:
     needs: [test]
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJSON(github.event_name == 'push' && '["windows-latest"]' || '["windows-latest","macos-latest"]') }}
+        os: [windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 25
     steps:

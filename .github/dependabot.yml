@@ -5,6 +5,11 @@ updates:
     schedule:
       interval: monthly
     open-pull-requests-limit: 5
+    # v0.1.0-alpha.1 处于 feature freeze：依赖升级整体不在范围内，Electron 的
+    # 大版本升级尤其如此。主版本 PR 会被直接关闭，冻结解除后移除这条 ignore。
+    ignore:
+      - dependency-name: "electron"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:

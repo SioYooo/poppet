@@ -4,7 +4,11 @@ All notable user-facing changes will be recorded here. This project follows
 semantic versioning for published tags and uses explicit prerelease suffixes for
 alpha, beta, and release-candidate builds.
 
-## 0.1.0-alpha.1 — release candidate (no tag or GitHub Release published yet)
+## 0.1.0-alpha.1 — published (prerelease, 2026-08-29)
+
+Tag: [`v0.1.0-alpha.1`](https://github.com/SioYooo/poppet/releases/tag/v0.1.0-alpha.1).
+Unsigned controlled alpha built and verified by the release workflow
+(cross-platform manifests + SHA-256 before the protected publish).
 
 ### Added
 
