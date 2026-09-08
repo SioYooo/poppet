@@ -4,6 +4,22 @@ All notable user-facing changes will be recorded here. This project follows
 semantic versioning for published tags and uses explicit prerelease suffixes for
 alpha, beta, and release-candidate builds.
 
+## Unreleased
+
+- Update the vulnerable build-only `fast-uri` and `@xmldom/xmldom` dependencies
+  within their existing compatible ranges; keep runtime dependencies unchanged.
+- Update the in-app About dialog to display the noncommercial license.
+
+- Code and documentation now use PolyForm Noncommercial 1.0.0; project artwork
+  uses the separate `LicenseRef-Poppet-Noncommercial-Artwork-1.0`. Both prohibit
+  commercial use under their respective terms. Earlier MIT grants and third-party
+  licenses remain intact. This does not relicense the existing alpha binaries.
+- State that Poppet Core is permanently free and donations unlock no features or
+  commercial rights. Add owner-supplied Alipay, WeChat Pay, and PayPal QR codes to the README
+  and `DONATE.md`, using the Research Driver donation layout.
+- Prepare the owner-authorized reopening of the clean-history `poppet` repository;
+  the development repository remains private. Activate the optional support link.
+
 ## 0.1.0-alpha.1 — published (prerelease, 2026-08-29)
 
 Tag: [`v0.1.0-alpha.1`](https://github.com/SioYooo/poppet/releases/tag/v0.1.0-alpha.1).

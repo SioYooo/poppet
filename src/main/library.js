@@ -391,7 +391,7 @@ function resolveExistingCharacterDir(id) {
 }
 
 // .poppetpack 导出用：返回一个已保存角色的已验证 meta 与原始 PNG 字节。
-// 内置品牌角色受 LicenseRef-Poppet-Scoped-Artwork 约束（禁止单独提取复用），
+// 内置品牌角色受 LicenseRef-Poppet-Noncommercial-Artwork-1.0 约束（禁止单独提取复用），
 // 不允许被导出成可交换的角色包。
 function characterExportBundle(id) {
   const dir = resolveExistingCharacterDir(id);

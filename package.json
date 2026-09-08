@@ -55,7 +55,7 @@
     "inspect:pack": "node tools/inspect-pack.mjs"
   },
   "author": "",
-  "license": "MIT AND LicenseRef-Poppet-Scoped-Artwork",
+  "license": "PolyForm-Noncommercial-1.0.0 AND LicenseRef-Poppet-Noncommercial-Artwork-1.0",
   "devDependencies": {
     "@electron/asar": "4.2.1",
     "electron": "43.4.1",

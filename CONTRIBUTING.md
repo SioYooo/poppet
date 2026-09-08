@@ -63,13 +63,17 @@ third-party artwork without evidence that its terms permit the intended use.
 Synthetic test fixtures should be deterministic and clearly identified.
 
 The bundled blonde default-character chain is verified under the scoped
-`LicenseRef-Poppet-Scoped-Artwork`; see `ASSETS_LICENSE.md`. It is not MIT-licensed
-or available for standalone reuse. New or replacement artwork still requires its
+`LicenseRef-Poppet-Noncommercial-Artwork-1.0`; see `ASSETS_LICENSE.md`.
+Commercial use and standalone reuse are prohibited. New or replacement artwork still requires its
 own truthful provenance, copyright owner, licence, redistribution scope, and
 evidence before it can enter a package or public repository.
 
 ## Licensing
 
 By submitting source-code or documentation changes, you agree that your
-contribution may be distributed under the MIT license in `LICENSE`. Asset terms
-must be stated separately and must be compatible with redistribution.
+contribution may be distributed under the PolyForm Noncommercial License 1.0.0
+in `LICENSE`. You retain ownership; submitting a contribution does not assign
+copyright or grant a separate commercial license to the maintainer. Only submit
+work you have the right to license on these terms, and preserve third-party and
+prior MIT notices. Asset terms must be stated separately and must permit the
+project's noncommercial redistribution. Do not submit commercial-only assets.

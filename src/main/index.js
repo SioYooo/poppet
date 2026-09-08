@@ -420,7 +420,7 @@ function diagnosticsText() {
 }
 
 function showAboutDialog() {
-  const detail = `${diagnosticsText()}\n\n代码许可证：MIT。随包美术为 Poppet 专用素材许可（见 ASSETS_LICENSE.md），不随代码采用 MIT。`;
+  const detail = `${diagnosticsText()}\n\nPoppet 本体永久免费。代码采用 PolyForm Noncommercial 1.0.0，禁止商用。随包美术单独采用 Poppet 非商业美术许可，禁止商用（见 ASSETS_LICENSE.md）。`;
   void dialog.showMessageBox({
     type: 'info',
     title: '关于 Poppet',

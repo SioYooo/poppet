@@ -11,7 +11,7 @@ and never touch disk until they pass the normal import boundary
 (`validateImportPayload` -> `importCharacter`), whose own staging directory and
 atomic rename provide the staged, durable publication step. There is no
 intermediate extraction directory to attack or swap. Export refuses the
-built-in brand character (`LicenseRef-Poppet-Scoped-Artwork` forbids standalone
+built-in brand character (`LicenseRef-Poppet-Noncommercial-Artwork-1.0` forbids standalone
 extraction) and writes via temp file + fsync + rename.
 
 ## Version 1 layout

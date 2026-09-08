@@ -5,7 +5,9 @@ Attestation date: 2026-08-21 (origin corrected and re-attested 2026-08-21;
 unbundled black-haired root reference attested 2026-08-24)
 
 Copyright basis: see "Rights basis" below; attribution name: Sioyoo
-Licence identifier: `LicenseRef-Poppet-Scoped-Artwork`
+Current licence identifier: `LicenseRef-Poppet-Noncommercial-Artwork-1.0`
+Current terms: `ASSETS_LICENSE.md` (owner instruction, 2026-09-09).
+The attestations below establish provenance; earlier grants remain historical.
 
 ## Origin
 
@@ -55,30 +57,26 @@ fails to disclose generative-AI origin.
   applicable law, it is owned by Sioyoo and attributed to Sioyoo. Whether and
   where copyright subsists in purely AI-generated images is legally unsettled
   and differs by jurisdiction; the restrictions in
-  `LicenseRef-Poppet-Scoped-Artwork` may therefore be difficult to enforce
+  the artwork licence may therefore be difficult to enforce
   against third parties in jurisdictions where no copyright subsists. This
   uncertainty is recorded honestly and does not affect Poppet's own right to
   distribute the artwork.
 - This satisfies the `CONTRIBUTING.md` requirement that AI-generated artwork
   carry evidence that its terms permit the intended use.
 
-## Licence scope
+## Current licence scope (2026-09-09)
 
-`LicenseRef-Poppet-Scoped-Artwork` permits the covered artwork to be:
+The owner instructed that the application remain permanently free and that
+both code and artwork prohibit commercial use. The complete current artwork
+terms are in `ASSETS_LICENSE.md` under
+`LicenseRef-Poppet-Noncommercial-Artwork-1.0`. The asset bytes and provenance
+have not changed; `.github/release-policy.json` records the new licence.
 
-- stored and redistributed as part of the public Poppet source repository;
-- included and redistributed in official free or paid Poppet application
-  packages, including commercial packages; and
-- modified, cropped, resized, pixel-processed, or converted into platform icon
-  formats only for Poppet.
-
-Recipients may retain and copy the artwork as part of the Poppet repository.
-They may not extract, reuse, relicense, or redistribute it separately, include
-it in an asset pack, or use it in an unrelated product. Official binary
-redistribution remains controlled by the Poppet project owner. This is a
-Poppet-scoped owner licence, not MIT, Creative Commons, public domain, or an
-open-source artwork licence. All rights not granted are reserved by Sioyoo to
-the extent they exist under applicable law.
+The 2026-08-21 quotation above records the earlier permission, including
+commercial official packages. It is retained as historical evidence, not as
+permission for new distributions under this revision. This migration does not
+revoke rights already granted for earlier copies. AI-copyright uncertainty
+in the Rights basis section applies equally to the new licence.
 
 ## Source anchor
 
@@ -113,7 +111,7 @@ Changing any listed file requires refreshing this record before release.
 `F8B5D4B4-324B-487B-BFAC-E4A3A151D7E7.PNG`
 (`cadc21e244e7681c6c664cec9ad4abd5fabd4018731d66b144845601aede31b4`) is an
 owner-generated AI image, attested by the owner on 2026-08-24. It is covered by
-the same `LicenseRef-Poppet-Scoped-Artwork` terms as the blonde source and stays
+the same `LicenseRef-Poppet-Noncommercial-Artwork-1.0` terms as the blonde source and stays
 excluded from application packages; it exists in the repository as a reference
 only.
 
