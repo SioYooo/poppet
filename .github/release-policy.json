@@ -2,9 +2,9 @@
   "schemaVersion": 2,
   "publicRepositoryApproval": {
     "status": "VERIFIED",
-    "approvedBy": "Sioyoo",
-    "approvedAt": "2026-08-29",
-    "evidence": "Owner-approved clean-history publication: repository made public 2026-08-29 as a single squashed initial commit containing no private history; hosted CI green on public main (2026-08-29)."
+    "approvedBy": "SioYooo",
+    "approvedAt": "2026-09-09",
+    "evidence": "Owner explicitly authorized pushing the prepared changes and making SioYooo/poppet public on 2026-09-09. The private poppet-dev development repository remains private. Publication uses the existing clean-history release repository; code and artwork retain their respective noncommercial terms."
   },
   "bundledArtwork": {
     "status": "VERIFIED",
@@ -15,7 +15,7 @@
         "role": "Built-in character metadata that identifies and positions the default artwork",
         "provenance": "PROJECT_AUTHORED_METADATA",
         "copyrightOwner": "Sioyoo",
-        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "license": "LicenseRef-Poppet-Noncommercial-Artwork-1.0",
         "redistribution": "VERIFIED",
         "evidence": "docs/default-character-provenance.md"
       },
@@ -25,7 +25,7 @@
         "role": "Built-in character selection icon",
         "provenance": "DERIVED_FROM_OWNER_AI_GENERATED",
         "copyrightOwner": "Sioyoo",
-        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "license": "LicenseRef-Poppet-Noncommercial-Artwork-1.0",
         "redistribution": "VERIFIED",
         "evidence": "docs/default-character-provenance.md"
       },
@@ -35,7 +35,7 @@
         "role": "Built-in character sprite parts used by the renderer",
         "provenance": "DERIVED_FROM_OWNER_AI_GENERATED",
         "copyrightOwner": "Sioyoo",
-        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "license": "LicenseRef-Poppet-Noncommercial-Artwork-1.0",
         "redistribution": "VERIFIED",
         "evidence": "docs/default-character-provenance.md"
       },
@@ -45,7 +45,7 @@
         "role": "Built-in character preview artwork",
         "provenance": "DERIVED_FROM_OWNER_AI_GENERATED",
         "copyrightOwner": "Sioyoo",
-        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "license": "LicenseRef-Poppet-Noncommercial-Artwork-1.0",
         "redistribution": "VERIFIED",
         "evidence": "docs/default-character-provenance.md"
       },
@@ -55,7 +55,7 @@
         "role": "Canonical macOS menu-bar and Windows notification-area icon",
         "provenance": "GENERATED_FROM_OWNER_AI_GENERATED_ARTWORK",
         "copyrightOwner": "Sioyoo",
-        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "license": "LicenseRef-Poppet-Noncommercial-Artwork-1.0",
         "redistribution": "VERIFIED",
         "evidence": "docs/default-character-provenance.md"
       },
@@ -65,7 +65,7 @@
         "role": "macOS application icon bundle",
         "provenance": "GENERATED_FROM_OWNER_AI_GENERATED_ARTWORK",
         "copyrightOwner": "Sioyoo",
-        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "license": "LicenseRef-Poppet-Noncommercial-Artwork-1.0",
         "redistribution": "VERIFIED",
         "evidence": "docs/default-character-provenance.md"
       },
@@ -75,7 +75,7 @@
         "role": "Windows application icon bundle",
         "provenance": "GENERATED_FROM_OWNER_AI_GENERATED_ARTWORK",
         "copyrightOwner": "Sioyoo",
-        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "license": "LicenseRef-Poppet-Noncommercial-Artwork-1.0",
         "redistribution": "VERIFIED",
         "evidence": "docs/default-character-provenance.md"
       }
@@ -90,7 +90,7 @@
         "role": "Owner-generated (OpenAI gpt-image) blonde source reference included in the source repository",
         "provenance": "OWNER_AI_GENERATED",
         "copyrightOwner": "Sioyoo",
-        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "license": "LicenseRef-Poppet-Noncommercial-Artwork-1.0",
         "redistribution": "VERIFIED",
         "evidence": "docs/default-character-provenance.md"
       },
@@ -100,7 +100,7 @@
         "role": "Unbundled black-haired character reference included in the source repository",
         "provenance": "OWNER_AI_GENERATED",
         "copyrightOwner": "Sioyoo",
-        "license": "LicenseRef-Poppet-Scoped-Artwork",
+        "license": "LicenseRef-Poppet-Noncommercial-Artwork-1.0",
         "redistribution": "VERIFIED",
         "evidence": "docs/default-character-provenance.md"
       }
