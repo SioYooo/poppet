@@ -58,7 +58,7 @@
   "license": "PolyForm-Noncommercial-1.0.0 AND LicenseRef-Poppet-Noncommercial-Artwork-1.0",
   "devDependencies": {
     "@electron/asar": "4.2.1",
-    "electron": "43.4.1",
+    "electron": "43.7.5",
     "electron-builder": "26.15.7",
     "plist": "5.0.0"
   },
